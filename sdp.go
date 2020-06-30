@@ -523,9 +523,8 @@ func remoteExts(session *sdp.SessionDescription) (map[SDPSectionType]map[int]sdp
 	}
 
 	// Add global exts
-	mediaType := SDPSectionGlobal
 	for _, attr := range session.Attributes {
-		if err := maybeAddExt(attr, mediaType); err != nil {
+		if err := maybeAddExt(attr, SDPSectionGlobal); err != nil {
 			return nil, err
 		}
 	}
