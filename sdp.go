@@ -322,7 +322,7 @@ func populateSDP(d *sdp.SessionDescription, isPlanB bool, isICELite bool, mediaE
 	}
 
 	// Add global exts
-	if maps, ok := extMaps["global"]; ok {
+	if maps, ok := extMaps[SDPSectionGlobal]; ok {
 		for _, m := range maps {
 			d.WithPropertyAttribute(m.Marshal())
 		}
