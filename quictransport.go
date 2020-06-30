@@ -110,7 +110,6 @@ func (t *QUICTransport) Start(remoteParameters QUICParameters) error {
 			isClient = false
 		}
 	}
-
 	cfg := &quic.Config{
 		Client:      isClient,
 		Certificate: cert.x509Cert,

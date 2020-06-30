@@ -15,5 +15,12 @@ require (
 	github.com/pion/srtp v1.3.4
 	github.com/pion/transport v0.10.0
 	github.com/sclevine/agouti v3.0.0+incompatible
+	github.com/shurcooL/go-goon v0.0.0-20170922171312-37c2f522c041
 	github.com/stretchr/testify v1.6.1
 )
+
+replace github.com/lucas-clemente/quic-go => /home/cryptix/go/src/github.com/lucas-clemente/quic-go
+
+replace github.com/pion/ice/v2 => /home/cryptix/go/src/github.com/pion/ice
+
+replace github.com/pion/quic => /home/cryptix/go/src/github.com/pion/quic
