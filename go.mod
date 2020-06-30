@@ -19,8 +19,6 @@ require (
 	github.com/stretchr/testify v1.6.1
 )
 
-replace github.com/lucas-clemente/quic-go => /home/cryptix/go/src/github.com/lucas-clemente/quic-go
+replace github.com/pion/quic => github.com/cryptix/pion-quic v0.1.2-0.20200630212434-18f2c8695fcf
 
-replace github.com/pion/ice/v2 => /home/cryptix/go/src/github.com/pion/ice
-
-replace github.com/pion/quic => /home/cryptix/go/src/github.com/pion/quic
+replace github.com/pion/ice/v2 => github.com/cryptix/pion-ice/v2 v2.0.0-20200630212220-0a1d023f5312
