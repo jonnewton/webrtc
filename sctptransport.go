@@ -52,6 +52,7 @@ type SCTPTransport struct {
 	log logging.LeveledLogger
 }
 
+
 // NewSCTPTransport creates a new SCTPTransport.
 // This constructor is part of the ORTC API. It is not
 // meant to be used together with the basic WebRTC API.
@@ -68,6 +69,11 @@ func (api *API) NewSCTPTransport(dtls *DTLSTransport) *SCTPTransport {
 
 	return res
 }
+
+// GetAssociation returns the SCTP association that is being used
+func (r *SCTPTransport) GetAssociation() *sctp.Association { 
+	return r.association 
+} 
 
 // Transport returns the DTLSTransport instance the SCTPTransport is sending over.
 func (r *SCTPTransport) Transport() *DTLSTransport {
