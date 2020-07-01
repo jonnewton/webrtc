@@ -112,11 +112,19 @@ func (s *testQuicStack) setSignal(sig *testQuicSignal, isOffer bool) error {
 
 func (s *testQuicStack) getSignal() (*testQuicSignal, error) {
 	// Gather candidates
+	gatherFinished := make(chan struct{})
+	s.gatherer.OnLocalCandidate(func(i *ICECandidate) {
+		if i == nil {
+			close(gatherFinished)
+			return
+		}
+	})
 	err := s.gatherer.Gather()
 	if err != nil {
 		return nil, err
 	}
 
+	<-gatherFinished
 	iceCandidates, err := s.gatherer.GetLocalCandidates()
 	if err != nil {
 		return nil, err
