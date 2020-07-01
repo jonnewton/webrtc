@@ -7,7 +7,7 @@ require (
 	github.com/pion/dtls/v2 v2.0.1
 	github.com/pion/ice/v2 v2.0.0-rc.3.0.20200701103128-01ce13b74165
 	github.com/pion/logging v0.2.2
-	github.com/pion/quic v0.1.1
+	github.com/pion/quic v0.1.2-0.20200701142707-4315de1b4844
 	github.com/pion/rtcp v1.2.3
 	github.com/pion/rtp v1.5.5
 	github.com/pion/sctp v1.7.6
@@ -17,5 +17,3 @@ require (
 	github.com/sclevine/agouti v3.0.0+incompatible
 	github.com/stretchr/testify v1.6.1
 )
-
-replace github.com/pion/quic => github.com/cryptix/pion-quic v0.1.2-0.20200630212434-18f2c8695fcf
