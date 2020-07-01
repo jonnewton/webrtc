@@ -4,12 +4,17 @@
 package webrtc
 
 import (
+	"bytes"
+	"encoding/binary"
+	"fmt"
+	"io"
 	"testing"
 	"time"
 
 	"github.com/pion/quic"
 	"github.com/pion/transport/test"
 	"github.com/pion/webrtc/v3/internal/util"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestQUICTransport_E2E(t *testing.T) {
@@ -17,9 +22,9 @@ func TestQUICTransport_E2E(t *testing.T) {
 	lim := test.TimeOut(time.Second * 20)
 	defer lim.Stop()
 
-	// TODO: Check how we can make sure quic-go closes without leaking
-	// report := test.CheckRoutines(t)
-	// defer report()
+	// Check how we can make sure quic-go closes without leaking
+	report := test.CheckRoutines(t)
+	defer report()
 
 	stackA, stackB, err := newQuicPair()
 	if err != nil {
@@ -27,8 +32,10 @@ func TestQUICTransport_E2E(t *testing.T) {
 	}
 
 	awaitSetup := make(chan struct{})
+	dataAgot := make(chan []byte)
+	dataBgot := make(chan []byte)
 	stackB.quic.OnBidirectionalStream(func(stream *quic.BidirectionalStream) {
-		go quicReadLoop(stream) // Read to pull incoming messages
+		go quicReadLoop(stream, dataBgot) // Read to pull incoming messages
 
 		close(awaitSetup)
 	})
@@ -43,18 +50,63 @@ func TestQUICTransport_E2E(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	go quicReadLoop(stream) // Read to pull incoming messages
+	go quicReadLoop(stream, dataAgot) // Read to pull incoming messages
 
-	// Write to open stream
-	data := quic.StreamWriteParameters{
-		Data: []byte("Hello"),
-	}
-	err = stream.Write(data)
-	if err != nil {
-		t.Fatal(err)
+	go func() {
+		for d := range dataAgot {
+			t.Errorf("unexpected data: %q", d)
+		}
+	}()
+
+	testData := bytes.Repeat([]byte("Hello"), 128)
+	count := 1024
+
+	var bufSent, bufGot bytes.Buffer
+
+	// read side
+	done := make(chan struct{})
+	go func() {
+		<-awaitSetup
+		t.Log("connection established")
+
+		i := 0
+		for {
+			received, more := <-dataBgot
+			if !more {
+				break
+			}
+
+			t.Log("received", i, len(received))
+			bufGot.Write(received)
+			i++
+		}
+		close(done)
+	}()
+
+	// sent side
+	for i := 0; i < count; i++ {
+		var buf [2]byte
+		binary.BigEndian.PutUint16(buf[:], uint16(i))
+		msg := append(buf[:], testData...)
+		bufSent.Write(msg)
+
+		data := quic.StreamWriteParameters{Data: msg}
+		if i == count-1 {
+			data.Finished = true
+			t.Log("final frame")
+		}
+		err = stream.Write(data)
+		if err != nil {
+			t.Fatal(err)
+		}
+		t.Log("sent", i)
 	}
 
-	<-awaitSetup
+	<-done
+	t.Log("read all data from stream")
+
+	assert.Equal(t, bufSent.Len(), count*(len(testData)+2))
+	assert.Equal(t, bufSent.Len(), bufGot.Len())
 
 	err = stackA.close()
 	if err != nil {
@@ -67,11 +119,24 @@ func TestQUICTransport_E2E(t *testing.T) {
 	}
 }
 
-func quicReadLoop(s *quic.BidirectionalStream) {
+func quicReadLoop(s *quic.BidirectionalStream, got chan<- []byte) {
+	defer close(got)
 	for {
-		buffer := make([]byte, 15)
-		_, err := s.ReadInto(buffer)
+		buffer := make([]byte, 4098)
+		res, err := s.ReadInto(buffer)
 		if err != nil {
+
+			if err == io.EOF {
+				got <- buffer[:res.Amount]
+			}
+			fmt.Println("readLoop closed", err, res.Amount)
+			return
+		}
+
+		got <- buffer[:res.Amount]
+		if res.Finished {
+			fmt.Println("stream finished!", res.Amount)
+			// TODO: maybe need to do final sent of last data
 			return
 		}
 	}
