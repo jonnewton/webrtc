@@ -17,8 +17,6 @@ github.com/cheekybits/genny v1.0.0 h1:uGGa4nei+j20rOSeDeP5Of12XVm7TGUd4dJA9RDitf
 github.com/cheekybits/genny v1.0.0/go.mod h1:+tQajlRqAUrPI7DOSpB0XAqZYtQakVtB7wXkRAgjxjQ=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/coreos/go-systemd v0.0.0-20181012123002-c6f51f82210d/go.mod h1:F5haX7vjVVG0kc13fIWeqUViNPyEJxv/OmvnBo0Yme4=
-github.com/cryptix/pion-ice/v2 v2.0.0-20200630212220-0a1d023f5312 h1:tPvGyAZWz9FwGSAzo9F/yYvSdDmk0HFUvH3fTVcH0p8=
-github.com/cryptix/pion-ice/v2 v2.0.0-20200630212220-0a1d023f5312/go.mod h1:5sP3yQ8Kd/azvPS4UrVTSgs/p5jfXMy3Ft2dQZBWyI8=
 github.com/cryptix/pion-quic v0.1.2-0.20200630212434-18f2c8695fcf h1:uEqCE5lwkcOGrRmqAhz8q4pF0wwDej7anCrf2r3hjdc=
 github.com/cryptix/pion-quic v0.1.2-0.20200630212434-18f2c8695fcf/go.mod h1:nXmzJRTETkA6WMUbbYG0U702MXrqrlOWgYVg6I4SrTY=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -112,6 +110,9 @@ github.com/pion/datachannel v1.4.17 h1:8CChK5VrJoGrwKCysoTscoWvshCAFpUkgY11Tqgz5
 github.com/pion/datachannel v1.4.17/go.mod h1:+vPQfypU9vSsyPXogYj1hBThWQ6MNXEQoQAzxoPvjYM=
 github.com/pion/dtls/v2 v2.0.1 h1:ddE7+V0faYRbyh4uPsRZ2vLdRrjVZn+wmCfI7jlBfaA=
 github.com/pion/dtls/v2 v2.0.1/go.mod h1:uMQkz2W0cSqY00xav7WByQ4Hb+18xeQh2oH2fRezr5U=
+github.com/pion/ice/v2 v2.0.0-rc.3/go.mod h1:5sP3yQ8Kd/azvPS4UrVTSgs/p5jfXMy3Ft2dQZBWyI8=
+github.com/pion/ice/v2 v2.0.0-rc.3.0.20200701103128-01ce13b74165 h1:Hz73lo7SIJpr5x1NCVXzE95DnuQ8HunBbH4K5fwsUh8=
+github.com/pion/ice/v2 v2.0.0-rc.3.0.20200701103128-01ce13b74165/go.mod h1:5sP3yQ8Kd/azvPS4UrVTSgs/p5jfXMy3Ft2dQZBWyI8=
 github.com/pion/logging v0.2.2 h1:M9+AIj/+pxNsDfAT64+MAVgJO0rsyLnoJKCqf//DoeY=
 github.com/pion/logging v0.2.2/go.mod h1:k0/tDVsRCX2Mb2ZEmTqNa7CWsQPc+YYCB7Q+5pahoms=
 github.com/pion/mdns v0.0.4 h1:O4vvVqr4DGX63vzmO6Fw9vpy3lfztVWHGCQfyw0ZLSY=
