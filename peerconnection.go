@@ -159,6 +159,11 @@ func (api *API) NewPeerConnection(configuration Configuration) (*PeerConnection,
 	return pc, nil
 }
 
+//adding access to the icetransport:
+func (pc *PeerConnection) ICETransport() *ICETransport{
+	return pc.iceTransport
+}
+
 // initConfiguration defines validation of the specified Configuration and
 // its assignment to the internal configuration variable. This function differs
 // from its SetConfiguration counterpart because most of the checks do not
